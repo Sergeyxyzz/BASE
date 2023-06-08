@@ -1,0 +1,47 @@
+let url = new URL("https://example.com:8000/path/name?q=term#fragment") ;
+url.href // => "https://example.com:8000/path/name?q=term#fragment"
+url.origin // => "https://example.com:8000"
+url.protocol // => "https:"
+url.host // => "example.com:8000"
+url.hostname // => "example.com"
+url.port // => "8000"
+url.pathname // => "/path/name"
+url.search // => "?q=term"
+url.hash // => "#fragment"
+
+Хотя так поступают нечасто, указатели URL могут содержать имя пользователя
+или имя пользователя и пароль, и класс URL тоже способен разбирать эти
+компоненты:
+
+let url = new URL("ftp://admin:1337!@ftp.example.com/");
+url.href // => "ftp://admin:1337l@ftp.example.com/"
+url.origin // => "ftp://ftp.example.com"
+url.username // => "admin"
+url.password // => "1337!"
+
+Свойство origin здесь представляет собой простое сочетание протокола
+и хоста URL (а также порта, если он указан). Как таковое, оно предназначено
+только для чтения. Но все остальные свойства, продемонстрированные в предыдущем
+примере, допускают чтение и запись: вы можете устанавливать любое
+свойство, чтобы устанавливать соответствующую часть URL:
+
+let url = new URL("https://example.com"); // Начать с нашего сервера
+url.pathname = "api/search"; // Добавить путь к конечной точке API
+url.search = "q=test"; // Добавить параметр запроса
+url.toString() // => "https://example.com/api/search?q=test"
+
+Одна из важных характеристик класса URL заключается в том, что он корректно
+добавляет знаки пунктуации и при необходимости отменяет специальные символы в указателях URL:
+let url = new URL("https://example.com") ;
+url.pathname = "path with spaces";
+url.search = "q=foo#bar";
+url.pathname // => "/path%20with%20spaces"
+url.search // => "?q=foo%23bar"
+url.href // => "https://example.com/path%20with%20spaces?q=foo%23bar"
+
+Свойство href в приведенных примерах является особенным: чтение h r e f
+Бивалентно вызову toString() — оно заново собирает все части URL в каноническую строковую форму URL. Установка href в новую строку запускает на новой
+строке средство разбора URL, как если бы вы снова вызвали конструктор URL()
+
+
+

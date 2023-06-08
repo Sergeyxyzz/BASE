@@ -1,0 +1,18 @@
+// Возвращает cookie-наборы документа как объект Мар.
+// Предполагает, что значения cookie-наборов
+// закодированы посредством encodeURIComponent().
+function getCookies() {
+  let cookies = new Map(); // Объект, который будет возвращен.
+  let all = document.cookie; // Получить все cookie-наборы в одной большой строке.
+  let list = all.split("; "); // Разбить на индивидуальные ары имя/значение.
+  for (let cookie of list) { //Для каждого cookie-набора в этом списке:
+    if (!cookie.includes("=")) continue; // Пропустить, если нет знака = .
+    let р = cookie.indexOf("="); // Найти первый знак =.
+    let name = cookie.substring(0, p ) ; // Получить имя cookie-набора
+    let value = cookie.substring(p+1);// Получить значение cookie-набора.
+    value = decodeURLComponent(value); // Декодировать значение,
+    cookies.set (name, value); // Запомнить имя и значение cookie-набора.
+  }
+  return cookies;
+}
+- - -

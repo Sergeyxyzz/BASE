@@ -1,0 +1,25 @@
+let point = {х: 1, у: 1}; // Определение объекта
+'x' in point // => true: объект имеет свойство по имени "х"
+'z' in point // => false: объект не имеет свойства по имени "z"
+"toString" in point // => true: объект наследует метод toString
+
+let data = [7,8,9]; // Массив с элементами (индексами) 0, 1 и 2
+'0' in data // => true: массив имеет элемент "О"
+1 in data // => true: числа преобразуются в строки
+3 in data // => false: массив не имеет элемента 3
+
+
+
+let d = new Dated; //Создание нового объекта с помощью конструктора Dated
+d instanceof Date // => true: объект d был создан с помощью Dated
+d instanceof Object // => true: все объекты являются экземплярами Object
+d instanceof Number // => false: d - не объект Number
+
+let a = [1, 2, 3]; // Создание нового массива посредством синтаксиса литерала типа массива
+a instanceof Array  // => true: объект а - массив
+a instanceof Object // => true: все массивы являются объектами
+a instanceof RegExp // => false: массивы - не регулярные выражения
+
+
+
+

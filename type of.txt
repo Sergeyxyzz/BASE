@@ -1,0 +1,10 @@
+---------------x------------------//---typeof х---
+undefined                         // "undefined"
+null                              // 'object'
+true или false                    // "boolean"
+Любое число или NaN               // "number"
+Любое значение BigInt             // "bigint"
+Любая строка                      // "string"
+Любой символ                      // "symbol"
+Любая функция                     // "function "
+Любой объект, отличный от функции // "object"

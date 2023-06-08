@@ -1,0 +1,10 @@
+setTimeout(() => { console.log("Ready..."); }, 1000);
+setTimeout(() => { console.log("set...”); }, 2000);
+setTimeout(() => { console.log("go!"); ), 3000);
+- - - - -
+// Раз в секунду: очистить консоль и вывести текущее время.
+let clock = setlnterval(() => {
+  console.clear();
+  console.log(new Date().toLocaleTimeString()); }, 1000); // ЛОКАЛЬНОЕ ВРЕМЯ HH:MM:SS
+// Спустя 10 секунд: прекратить повторение выполнения кода выше.
+setTimeout(() => { clearlnterval(clock); }, 10000);

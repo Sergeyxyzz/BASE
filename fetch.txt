@@ -1,0 +1,108 @@
+Для базовых HTTP-запросов применение fetch() сводится к процессу, состоящему
+из трех шагов.
+1. Вызвать fetch(), передавая URL, содержимое которого нужно извлечь.
+2. Получить объект ответа, который асинхронно возвратился на шаге 1, когда
+HTTP-ответ начинает поступать, и вызвать метод объекта ответа, чтобы
+затребовать тело ответа.
+3. Получить объект тела, который асинхронно возвратился на шаге 2, и обработать
+его любым желаемым способом.
+
+API-интерфейс fetch() полностью основан на Promise, и здесь есть два
+Синхронных шага, а потому при использовании fetch() обычно ожидаются два
+вызова then() или два выражения await.
+
+Вот как выглядит запрос fetch(), если вы применяете then() и ожидаете,
+Что ответ сервера на ваш запрос будет иметь формат JSON:
+
+fetch("/api/users/current") // Сделать HTTP- или HTTPS-запрос GET
+  .then(response => response, json()) // Разобрать его тело в объект Json
+  .then(currentUser => { // Затем обработать этот разобранный объект
+    displayUserlnfo(currentUser); 
+  })
+
+- 
+Ниже приведен похожий запрос, сделанный с использованием ключевых
+слов async и await к API-интерфейсу, который возвращает вместо объекта
+JSON простую строку:
+
+async function isServiceReady() {
+  let response = await fetch("/api/service/status") ;
+  let body = await response.text();
+  return body === "ready";
+}
+- - - Вот более реалистичная версия:
+fetch("/api/users/current") // Сделать HTTP- или HTTPS-запрос GET.
+  .then(response => { //Когда мы получим ответ, сначала проверить его
+    if (response.ok && response.headers.get("Content-Type") === "application/json") { // на наличие кода успеха и ожидаемого типа,
+      return response.json(); //Возвратить объект Promise для тела
+    } else {
+      throw new Error ( // Или сгенерировать ошибку.
+        `Unexpected response status ${response.status) or content type`
+      );
+    }
+  })
+  .then(currentUser => { // Когда объект Promise из response.json() разрешается, делать что-то с разобранным телом
+    displayUserlnfo(currentUser),
+})
+.catch(error => { // Или если что-то пошло не так,
+// тогда вывести сообщение об ошибке.
+// Если браузер пользователя работает автономно,
+// тогда сам вызов fetch() будет отклонен.
+// Если сервер возвращает неверный ответ,
+// тогда мы генерируем ошибку выше.
+  console, log ("Error while fetching current user:", error);
+})
+- - -
+Объект Headers также является итерируемым, если вас когда-либо заинтересует
+данный факт:
+fetch(url).then(response => {
+  for(let [name,value] of response.headers) {
+    console.log(`${name}: ${value}`);
+  }
+});
+- - -
+как можно включить в
+запрос fetch() параметры запроса:
+
+async function search(term) {
+  let url = new URL("/api/search");
+  url.searchParams.set("q", term);
+  let response = await fetch (url);
+  if (!response.ok) throw new Error (response.statusText);
+  let resultsArray = await response, json();
+  return resultsArray;
+}
+
+- - - post
+fetch(url,
+  { method: "POST" }).then(r => r.json()).then(handleResponse);
+
+Запросы POST и PUT обычно имеют тело запроса, содержащее данные, которые
+должны посылаться серверу. При условии, что свойство method не установлено
+в "GET" или "HEAD" (методы запроса, не поддерживающие тело), вы
+Можете указывать тело запроса, устанавливая свойство body объекта Options:
+
+fetch(url, {
+  method: "POST",
+  body: "hello world"
+})
+
+- - -
+Когда вы указываете тело запроса» браузер автоматически добавляет к запро
+су подходящий заголовок "Content-Length”. Если тело является строкой, как
+предыдущем примере, тогда браузер устанавливает заголовок "Content-Type n
+в принятое по умолчанию значение ”te x t/p la in ;c h a rs e t=U T F -8 " . Вам может
+потребоваться переопределить такое значение по умолчанию, если вы указы
+ваете строковое тело более специфического типа наподобие "text/html" или
+"application/json":
+  fetch(url, {
+  method: "POST",
+  headers: new Headers({"Content-Type” : "application/json"}),
+  body: JSON.stringify(requestBody)
+})
+
+
+
+
+
+

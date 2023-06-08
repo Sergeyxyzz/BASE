@@ -1,0 +1,11 @@
+let о = {х: 1, у: {z: [false, null, ""]}}; // Определение тестового объекта
+let s = JSON.stringify(о); //s == '{"х": 1, "у":{"z": [false,null,""]}}'
+let p = JSON.parse(s); // p == {x: 1, y: {z : [false, null, ""])}
+- - - - -
+поддерживается сериализация и десериализация JSON через две
+функции, JSON.stringify() и JSON.parse()
+
+// Создать глубокую копию любого сериализируемого объекта или массива
+function deepcopy(o) {
+  return JSON.parse(JSON.stringify(o));
+}

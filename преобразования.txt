@@ -1,0 +1,8 @@
+Number("3") // => 3
+String(false) // => "false": либо используйте false.toString()
+Boolean([]) // => true
+
+х + "" // => String(х)
++х // => Number(х)
+х-0 // => Number(х)
+!!х // => Boolean(х) 
